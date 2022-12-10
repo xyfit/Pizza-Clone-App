@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmadhamwi.tabsync.TabbedListMediator
 import com.google.android.material.tabs.TabLayout
+import com.one.choparpizzaclone.ModalBottomSheet
 import com.one.choparpizzaclone.R
+import com.one.choparpizzaclone.adapter.ItemCallback
 import com.one.choparpizzaclone.adapter.MenuAdapter
 import com.one.choparpizzaclone.databinding.FragmentMenuBinding
 import com.one.choparpizzaclone.model.MovieModel
@@ -97,7 +99,12 @@ class MenuFragment : Fragment(), Callback<MovieModel<List<Result>>> {
 
     private fun initRecycler() {
 //        recyclerView.layoutManager = LinearLayoutManager(requireContext())// because LinearLayoutManager is inited in xml
-        recyclerView.adapter = MenuAdapter(menuList)
+        recyclerView.adapter = MenuAdapter(menuList, object : ItemCallback{
+            override fun putBottomSheetItemData(itemData: Result.SubMember) {
+                val modalBottomSheet = ModalBottomSheet(itemData)
+                modalBottomSheet.show(requireActivity().supportFragmentManager, ModalBottomSheet.TAG)
+            }
+        })
     }
 
 

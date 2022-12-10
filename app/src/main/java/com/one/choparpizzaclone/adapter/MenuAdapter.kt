@@ -13,16 +13,24 @@ import com.one.choparpizzaclone.model.MovieModel
 import com.one.choparpizzaclone.model.Result
 import com.squareup.picasso.Picasso
 
-class MenuAdapter(val baseList: List<Result>) : RecyclerView.Adapter<MenuAdapter.ItemHolder>() {
+class MenuAdapter(val baseList: List<Result>,  val itemCallback: ItemCallback) : RecyclerView.Adapter<MenuAdapter.ItemHolder>() {
 
     inner class ItemHolder(val b: MenuItemLyBinding) : RecyclerView.ViewHolder(b.root) {
         fun bind(result: Result) {
+
+            val itemCallback =  object : ItemCallback{
+                override fun putBottomSheetItemData(itemData: Result.SubMember) {
+                    itemCallback.putBottomSheetItemData(itemData)
+                }
+            }
+
             b.subRecTitle.text = result.title
-            val subMemberAdapter = SubMemberAdapter(result.members)
-            b.subRecView.run {
+            val subMemberAdapter = SubMemberAdapter(result.members, itemCallback)
+            b.subRecView.run {0
                 layoutManager = LinearLayoutManager(b.root.context, LinearLayoutManager.VERTICAL, false)//VERTICAL
                 adapter = subMemberAdapter
             }
+
 
         }
     }

@@ -11,7 +11,7 @@ import com.one.choparpizzaclone.model.MovieModel
 import com.one.choparpizzaclone.model.Result
 import com.squareup.picasso.Picasso
 
-class SubMemberAdapter(val baseList: List<Result.SubMember>) :
+class SubMemberAdapter(val baseList: List<Result.SubMember>, val itemCallback: ItemCallback) :
     RecyclerView.Adapter<SubMemberAdapter.ItemHolder>() {
 
     inner class ItemHolder(val b: MenuSubItemLyBinding) : RecyclerView.ViewHolder(b.root) {
@@ -36,10 +36,16 @@ class SubMemberAdapter(val baseList: List<Result.SubMember>) :
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val itemData = baseList[position]
         holder.bind(itemData)
+        holder.itemView.setOnClickListener {
+            itemCallback.putBottomSheetItemData(itemData)
+        }
     }
 
 
     override fun getItemCount(): Int {
         return baseList.size
     }
+}
+interface ItemCallback{
+    fun putBottomSheetItemData(itemData: Result.SubMember)
 }
